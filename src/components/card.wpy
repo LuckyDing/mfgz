@@ -65,14 +65,25 @@
     }
     props = {
       img: {
-        type: String
+        type: String,
+        default: ''
       },
       title: {
-        type: String
+        type: String,
+        default: ''
       },
-      desc: '',
-      time: '',
-      num: ''
+      desc: {
+        type: String,
+        default: ''
+      },
+      time: {
+        type: String,
+        default: ''
+      },
+      num: {
+        type: Number,
+        default: 0
+      }
     }
     events = {
     }

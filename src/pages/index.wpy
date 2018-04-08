@@ -71,7 +71,7 @@
       </view>
       <!-- navbar  -->
       <navbar @tabClick.user="tabClick" :tabs="tabs"></navbar>
-      <repeat for="{{listData}}" item="item" key="*this" index="index">
+      <repeat for="{{listData}}" item="item" key="index" index="index">
         <card :title="item.title" :img="item.img" :desc="item.desc" :time="item.time" :num="item.num"></card>
       </repeat>
     </scroll-view>
@@ -106,7 +106,7 @@
           title: '哈哈哈哈哈哈哈',
           desc: '全场花茶五折，最高立减200元',
           time: '03.02-04.22',
-          num: '600',
+          num: 600,
           url: 'http://www.baidu.com',
           id: 0
         }
@@ -116,7 +116,7 @@
     }
     methods = {
       tabClick (e) {
-        // console.log(222)
+        console.log(222)
       }
     }
     async onLoad () {

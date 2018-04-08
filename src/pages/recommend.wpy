@@ -13,7 +13,7 @@
     config = {
       navigationBarTitleText: 'test'
     }
-    onLoad() {
+    onLoad () {
       console.log('onLoad')
     }
   }
