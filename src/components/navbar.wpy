@@ -1,0 +1,92 @@
+<style lang="less">
+  @import '../styles/base.less';
+  .dy_navbar{
+    display: flex;
+    height: 88rpx;
+    align-items: center;
+    position: relative;
+    background-color:#fff;
+
+    .dy_navbar_title{
+      flex:1;
+      color:#333;
+      justify-content: center;
+      text-align: center;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dy_navbar_slider{
+      height: 4rpx;
+      width: 0;
+      background-color: @baseColor;
+      position: absolute;
+      bottom: -4rpx;
+      left: 0;
+      transition-duration: .3s;
+      transition-property: all;
+      transition-timing-function: ease;
+      transition-delay: 0s;
+    }
+    .dy_navbar_item_on{
+      color: @baseColor;
+    }
+  }
+</style>
+<template>
+  <view class="dy_navbar">
+    <repeat for="{{tabs}}" index="index" key="*this" item="item">
+      <view class="dy_navbar_title {{activeIndex == index ? 'dy_navbar_item_on' : ''}}" id="{{index}}" @tap="tabClick">{{item}}</view>
+    </repeat>
+    <view class="dy_navbar_slider" style="left: {{sliderLeft}}px;width:{{width}}px"></view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Navbar extends wepy.component {
+    data = {
+      baseWidth: 0,
+      sliderLeft: 0
+    }
+    props ={
+      tabs: {
+        type: Array,
+        default: ['tab1', 'tab2', 'tab3']
+      },
+      activeIndex: {
+        type: Number,
+        default: 3
+      },
+      width: 0
+    }
+    events = {
+    }
+
+    methods = {
+      tabClick (e) {
+        this.activeIndex = e.currentTarget.id
+        this.dynamicWidth()
+        this.$emit('tabClick', 1)
+      }
+    }
+    dynamicWidth () {
+      let textLength = this.tabs[this.activeIndex].length //  tab文字长度
+      this.width = textLength * 20  //  宽度
+      let otherWidth = this.baseWidth - this.width
+      if (this.width > this.baseWidth) {
+        this.width = this.baseWidth
+        this.sliderLeft = this.baseWidth * this.activeIndex
+      } else {
+        this.sliderLeft = this.baseWidth * this.activeIndex + otherWidth / 2
+      }
+    }
+    async onLoad () {
+      let res = await wepy.getSystemInfo()
+      this.baseWidth = res.windowWidth / this.tabs.length //  静态宽度
+      this.dynamicWidth()
+      this.$apply()
+    }
+  }
+</script>

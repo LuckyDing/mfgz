@@ -1,0 +1,134 @@
+<style lang="less">
+.dy_header{
+  display: flex;
+  height: 88rpx;
+  padding: 0 30rpx;
+  align-items: center;
+  background-color:#fff;
+
+  .city{
+    width: 120rpx;
+  }
+  .dy_search_bar{
+    display: flex;
+    flex:1;
+    align-items: center;
+    width: 276 * 2 rpx;
+    border: 1px solid #A5A5A5;
+    border-radius: 200rpx;
+    margin-left: 30rpx;
+    .iconfont {
+    	font-size: 14px;
+    	color: #888;
+    	margin:0 16rpx;
+    }
+  }
+}
+.bottom-arrow {
+  position: relative;
+  margin-left: 20rpx;
+  &:after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    content: "";
+    border: 4px solid;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent
+  }
+}
+.my_swiper{
+  swiper{
+      height: 410rpx;
+      image {
+        width: 100%;
+	      height: 100%
+      }
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <scroll-view scroll-y="true" style="height:{{scrollHeight}}px;" enable-back-to-top="true" bindscrolltolower="loadMore">
+      <view class="dy_header">
+        <view class="city">厦门市<i class="bottom-arrow"/></view>
+        <view class="dy_search_bar">
+          <view><i class="iconfont icon-search"/></view>
+          <view><input value='{{inputVal}}' placeholder="搜索商家"/></view>
+        </view>
+      </view>
+      <!-- 轮播图 -->
+      <view class="my_swiper">
+        <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+          <repeat for="{{imgUrls}}" index="index" item="item" key="index">
+            <swiper-item>
+              <image src="{{item}}" class="slide-image" mode="aspectFill"/>
+            </swiper-item>
+          </repeat>
+        </swiper>
+      </view>
+      <!-- navbar  -->
+      <navbar @tabClick.user="tabClick" :tabs="tabs"></navbar>
+      <repeat for="{{listData}}" item="item" key="*this" index="index">
+        <card :title="item.title" :img="item.img" :desc="item.desc" :time="item.time" :num="item.num"></card>
+      </repeat>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Navbar from '../components/navbar'
+  import Card from '../components/card'
+
+  export default class Index extends wepy.page {
+    components = {
+      navbar: Navbar,
+      card: Card
+    }
+    config = {
+      navigationBarTitleText: '测试',
+      enablePullDownRefresh: true
+    }
+    data = {
+      inputVal: '',
+      imgUrls: [
+        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      ],
+      tabs: ['一', '两个', '三个字', '四个字啊啊啊啊'],
+      listData: [
+        {
+          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+          title: '哈哈哈哈哈哈哈',
+          desc: '全场花茶五折，最高立减200元',
+          time: '03.02-04.22',
+          num: '600',
+          url: 'http://www.baidu.com',
+          id: 0
+        }
+      ],
+      activeIndex: 0,
+      scrollHeight: 0
+    }
+    methods = {
+      tabClick (e) {
+        // console.log(222)
+      }
+    }
+    async onLoad () {
+      let res = await wepy.getSystemInfo()
+      this.scrollHeight = res.windowHeight
+      this.$apply()
+    }
+    loadMore () {
+      console.log('加载')
+    }
+    onPullDownRefresh () {
+      console.log('--------下拉刷新-------')
+    }
+  }
+</script>

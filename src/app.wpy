@@ -1,0 +1,84 @@
+<style lang="less">
+  @import './styles/icon.less';
+  page{
+    font-size: 14px;
+    background-color: #f2f2f2
+  }
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+
+import { setStore } from 'wepy-redux'
+import configStore from './store'
+
+const store = configStore()
+setStore(store)
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/my',
+      'pages/recommend'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black',
+    },
+    tabBar: {
+      selectedColor: '#E75999',
+      list: [
+        {
+          pagePath: 'pages/index',
+          text: '超级福利',
+          iconPath: 'images/gift.png',
+          selectedIconPath: 'images/gift_on.png'
+        },
+        {
+          pagePath: 'pages/my',
+          text: '精选店铺',
+          iconPath: 'images/shop.png',
+          selectedIconPath: 'images/shop_on.png'
+        },
+        {
+          pagePath: 'pages/recommend',
+          text: 'VIP',
+          iconPath: 'images/vip.png',
+          selectedIconPath: 'images/vip_on.png'
+        }
+      ]
+    }
+  }
+
+  globalData = {
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+    this.use('promisify')
+  }
+
+  onLaunch() {
+
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+}
+</script>
