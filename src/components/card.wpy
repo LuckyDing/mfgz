@@ -45,17 +45,19 @@
   }
 </style>
 <template>
-  <view class="dy_card">
-    <image class="dy_card_image" src="{{img}}" mode="aspectFill"/>
-    <view class="dy_card_info">
-      <view class="dy_card_title">{{title}}</view>
-      <view class="dy_card_desc">{{desc}}</view>
-      <view class="dy_card_more">
-        <text class="dy_card_left">时间：{{time}}</text>
-        <label class="dy_card_right">剩余：<text class="num">{{num}}</text>份</label>
+  <navigator url="{{url}}" hover-class="navigator-hover">
+    <view class="dy_card">
+      <image class="dy_card_image" src="{{img}}" mode="aspectFill"/>
+      <view class="dy_card_info">
+        <view class="dy_card_title">{{title}}</view>
+        <view class="dy_card_desc">{{desc}}</view>
+        <view class="dy_card_more">
+          <text class="dy_card_left">时间：{{time}}</text>
+          <label class="dy_card_right">剩余：<text class="num">{{num}}</text>份</label>
+        </view>
       </view>
     </view>
-  </view>
+  </navigator>
 </template>
 <script>
   import wepy from 'wepy'
@@ -83,6 +85,10 @@
       num: {
         type: Number,
         default: 0
+      },
+      url: {
+        type: String,
+        default: ''
       }
     }
     events = {

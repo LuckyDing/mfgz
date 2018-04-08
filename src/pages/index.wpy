@@ -72,7 +72,7 @@
       <!-- navbar  -->
       <navbar @tabClick.user="tabClick" :tabs="tabs"></navbar>
       <repeat for="{{listData}}" item="item" key="index" index="index">
-        <card :title="item.title" :img="item.img" :desc="item.desc" :time="item.time" :num="item.num"></card>
+        <card :url="'goods?id='+item.id" :title="item.title" :img="item.img" :desc="item.desc" :time="item.time" :num="item.num"></card>
       </repeat>
     </scroll-view>
   </view>
@@ -107,7 +107,6 @@
           desc: '全场花茶五折，最高立减200元',
           time: '03.02-04.22',
           num: 600,
-          url: 'http://www.baidu.com',
           id: 0
         }
       ],
@@ -116,7 +115,7 @@
     }
     methods = {
       tabClick (e) {
-        console.log(222)
+        // console.log(e.currentTarget.id)
       }
     }
     async onLoad () {

@@ -68,7 +68,7 @@
       tabClick (e) {
         this.activeIndex = e.currentTarget.id
         this.dynamicWidth()
-        this.$emit('tabClick', 1)
+        this.$emit('tabClick', e)
       }
     }
     dynamicWidth () {

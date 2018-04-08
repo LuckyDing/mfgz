@@ -21,7 +21,8 @@ export default class extends wepy.app {
     pages: [
       'pages/index',
       'pages/my',
-      'pages/recommend'
+      'pages/recommend',
+      'pages/goods'
     ],
     window: {
       backgroundTextStyle: 'light',
