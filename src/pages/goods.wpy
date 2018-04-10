@@ -1,0 +1,258 @@
+<style lang="less">
+@import '../styles/base.less';
+ .container{
+   padding-bottom: 44px;
+ }
+  .my_swiper{
+    swiper{
+        height: 410rpx;
+        image {
+          width: 100%;
+  	      height: 100%
+        }
+    }
+  }
+  .header{
+    background-color: #fff;
+
+    .header_text{
+      padding: 20rpx 30rpx 0 30rpx;
+      text{
+        display: block;
+        padding-bottom: 20rpx;
+      }
+      .title{
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .desc{
+        color: #888;
+      }
+      .price{
+        color:@baseColor;
+        font-size: 18px;
+      }
+    }
+  }
+  .address_area{
+    margin-top: 30rpx;
+    background-color: #fff;
+
+    .address_header{
+      padding: 20rpx 30rpx;
+      display: flex;
+      align-items: center;
+
+      .address_header_item{
+        font-size: 18px;
+        flex: 1;
+        &:last-child{
+          font-size: 14px;
+          color:#888;
+          text-align: right;
+        }
+      }
+    }
+    .address_item{
+      padding: 10rpx 30rpx;
+      .address_name{
+        font-size: 14px;
+      }
+      .address_info{
+        color:#888;
+        margin-top: 20rpx;
+        font-size: 14px;
+        display: flex;
+        view{
+          width: 80%;
+          &:first-child{
+            width: 10%;
+          }
+          &:last-child{
+            width: 10%;
+          }
+        }
+        .second_icon{
+          color: @baseColor;
+          text-align: right;
+          i{
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+  .goods_info{
+    margin-top: 30rpx;
+    padding: 20rpx;
+    background-color: #fff;
+    font-size: 12px;
+
+    .goods_info_title{
+      font-size: 18px;
+      border-bottom: 1px solid @borderColor;
+      padding-bottom: 20rpx;
+    }
+    .goods_item{
+      padding-top: 30rpx;
+    }
+    .goods_title{
+      font-size: 16px;
+      padding-bottom: 30rpx;
+    }
+    .goods_resume{
+      font-size: 16px;
+      view{
+        padding: 10rpx 0;
+      }
+    }
+    .goods_desc{
+      color:#888;
+      font-size: 12px;
+      font-weight: normal;
+    }
+    .goods_content{
+      text-align: justify;
+    }
+    .goods_remark{
+      color:@baseColor;
+    }
+  }
+  .shop_info{
+    margin-top: 30rpx;
+    padding: 20rpx;
+    background-color: #fff;
+    font-size: 14px;
+
+    .title{
+      font-size: 18px;
+      border-bottom: 1px solid @borderColor;
+      padding-bottom: 20rpx;
+    }
+  }
+</style>
+<template>
+  <view class="container">
+    <view class="header">
+      <view class="my_swiper">
+        <swiper autoplay="true" interval="5000" duration="1000">
+          <repeat for="{{imgUrls}}" index="index" item="item" key="index">
+            <swiper-item>
+              <image src="{{item}}" class="slide-image" mode="aspectFill"/>
+            </swiper-item>
+          </repeat>
+        </swiper>
+      </view>
+      <view class="header_text">
+        <text class="title">标题标题标题</text>
+        <text class="desc">说明</text>
+        <text class="price">￥300/人</text>
+      </view>
+    </view>
+    <!-- 地址 -->
+    <view class="address_area">
+      <view class="address_header">
+        <view class="address_header_item">活动门店</view>
+        <view class="address_header_item" @tap="show_more">共8家<i class="bottom-arrow"/></i></view>
+      </view>
+      <repeat for="{{address}}" key="index" item="item">
+        <view class="address_item">
+          <view class="address_name">{{item.name}}</view>
+          <view class="address_info">
+            <view class="first_icon"><i class="iconfont icon-address"></i></view>
+            <view><text>{{item.address}}</text></view>
+            <view class="second_icon"><i class="iconfont icon-guide"></i></view>
+          </view>
+          <view class="address_info">
+            <view class="first_icon"><i class="iconfont icon-time first_icon"></i></view>
+            <view><text>营业时间 {{item.time}}</text></view>
+            <view class="second_icon"><i class="iconfont icon-telephone"></i></view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+    <!-- 详情 -->
+    <view class="goods_info">
+      <view class="goods_info_title">
+        <text>长期福利</text>
+      </view>
+      <view class="goods_resume">
+        <view>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈或或还好好哈哈哈哈扩军军</view>
+        <view class="goods_desc">福利时间：2018.2.16 - 2019.2.16</view>
+      </view>
+      <view class="goods_item">
+        <view class="goods_title">福利内容</view>
+        <view class="goods_content">由于双皮奶是凝固型食品，在加热过程中，微波可以让水分子转化成游离水，
+          如果食品中还有气体的话，加热可以让空气在短时间增大空气压力，水也会产生过热水。
+          由于是凝固食物有一定的抗压能力，但是一旦受到外力突破了其的极限的话，
+          高压的空气和过热的水会迅速产生气体产生爆炸。</view>
+      </view>
+      <view class="goods_item">
+        <view class="goods_title">使用说明</view>
+        <view class="goods_content">在本程序中领取福利，到店出示二维码即可</view>
+      </view>
+      <view class="goods_item">
+        <view class="goods_remark">特别提醒</view>
+        <view class="goods_remark">在本程序中领取福利，到店出示二维码即可</view>
+      </view>
+    </view>
+    <!-- 服务内容 -->
+    <view class="shop_info">
+      <view class="title">服务项目</view>
+    </view>
+    <view class="fixed_btn">成为会员即可领取</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Goods extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    data = {
+      imgUrls: [
+        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      ],
+      address: [
+        {
+          name: '第一家门店',
+          address: '地球村中国福建省厦门市湖里区安岭路989号裕隆国际大厦1205',
+          time: '10:00 - 22:00',
+          tel: '18666666666'
+        }
+      ],
+      show_more: 0
+    }
+    methods = {
+      show_more () {
+        console.log('more')
+        let list = [{
+          name: '第二家门店',
+          address: '厦门市湖里区安岭路989号裕隆国际大厦1205',
+          time: '10:00 - 22:00',
+          tel: '18666666666'
+        },
+        {
+          name: '第三家门店',
+          address: '安岭路989号裕隆国际大厦1205',
+          time: '10:00 - 22:00',
+          tel: '18666666666'
+        }]
+        if (this.show_more === 0) {
+          this.address = this.address.concat(list)
+          this.show_more = 1
+        } else {
+          this.address = [this.address[0]]
+          this.show_more = 0
+        }
+      }
+    }
+    onLoad (options) {
+      console.log(options)
+    }
+  }
+</script>

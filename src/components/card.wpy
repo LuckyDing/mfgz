@@ -4,7 +4,7 @@
   	margin: 24rpx 30rpx;
   	position: relative;
     background-color: #fff;
-    box-shadow: 0 0 1px 0 #E5E5E5;
+    box-shadow: 0 0 2px 0 #E5E5E5;
 
     .dy_card_info{
       padding: 0 30rpx
