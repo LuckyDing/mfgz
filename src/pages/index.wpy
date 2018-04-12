@@ -24,21 +24,6 @@
     }
   }
 }
-.bottom-arrow {
-  position: relative;
-  margin-left: 20rpx;
-  &:after {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: middle;
-    content: "";
-    border: 4px solid;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent
-  }
-}
 .my_swiper{
   swiper{
       height: 410rpx;
@@ -64,7 +49,7 @@
         <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
           <repeat for="{{imgUrls}}" index="index" item="item" key="index">
             <swiper-item>
-              <image src="{{item}}" class="slide-image" mode="aspectFill"/>
+              <image src="{{item.img}}" class="slide-image" mode="aspectFill"/>
             </swiper-item>
           </repeat>
         </swiper>
@@ -82,8 +67,10 @@
   import wepy from 'wepy'
   import Navbar from '../components/navbar'
   import Card from '../components/card'
+  import request from '../mixins/request'
 
   export default class Index extends wepy.page {
+    mixins = [request];
     components = {
       navbar: Navbar,
       card: Card
@@ -94,11 +81,7 @@
     }
     data = {
       inputVal: '',
-      imgUrls: [
-        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      ],
+      imgUrls: [],
       tabs: ['一', '两个', '三个字', '四个字啊啊啊啊'],
       listData: [
         {
@@ -119,8 +102,13 @@
       }
     }
     async onLoad () {
+      const _this = this
       let res = await wepy.getSystemInfo()
       this.scrollHeight = res.windowHeight
+      this.$post('getSwiperImages').then((res) => {
+        _this.imgUrls = res.data
+        this.$apply()
+      })
       this.$apply()
     }
     loadMore () {
