@@ -1,0 +1,89 @@
+<style lang="less">
+ @import '../styles/config.less';
+  .shop_row{
+    display: flex;
+    background: #fff;
+    margin: 16rpx @baseSpace;
+    padding: 28rpx @baseSpace;
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.10);
+    border-radius: 3px;
+
+    .row_item{
+      font-size: 12px;
+      &:first-child{
+        width: 140rpx;
+        margin-right: @baseSpace;
+      }
+      .img{
+        height: 140rpx;
+        width: 140rpx;
+        border-radius: 3px;
+      }
+      .name{
+        font-size: 16px;
+      }
+      .price{
+        margin-top: 20rpx;
+        display: flex;
+      }
+      .desc{
+        color: @grayColor;
+        margin-top: 16rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="shop_row">
+    <view class="row_item">
+      <image class="img" src="{{logo}}" mode="aspectFill"/>
+    </view>
+    <view class="row_item">
+      <view class="name">{{starNum}}</view>
+      <view class="price">
+        <star :starNum="starNum"></star>
+        <view><text>{{price}}/人</text></view>
+      </view>
+      <view class="desc">{{catStr}} {{area}}</view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import star from './star'
+  export default class ShopRow extends wepy.component {
+    components = {
+      star
+    }
+    data = {
+    }
+    props = {
+      logo: {
+        type: String,
+        default: ''
+      },
+      name: {
+        type: String,
+        default: ''
+      },
+      price: {
+        type: Number,
+        default: 0
+      },
+      catStr: {
+        type: String,
+        default: ''
+      },
+      area: {
+        type: String,
+        default: ''
+      },
+      starNum: {
+        type: Number,
+        default: 5.0
+      }
+    }
+    onLoad () {
+    }
+  }
+</script>

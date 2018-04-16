@@ -1,0 +1,79 @@
+<style lang="less">
+@import '../styles/config.less';
+  .stars{
+    display: flex;
+    .star_box{
+      position: relative;
+      width: 16px;
+      margin-right: 6rpx;
+      .star_off{
+        color: #E5E5E5;
+        position:absolute;
+        top:50%;
+        left:0;
+        transform: translate(0,-50%);
+        width: 16px;
+      }
+      .star_on{
+        color: #FFAB00;
+        position:absolute;
+        top:50%;
+        left:0;
+        transform: translate(0,-50%);
+        width: 16px;
+        overflow: hidden;
+        display: block;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="stars">
+    {{starNum}}
+    <repeat for="{{starArr}}" index='index' key="index">
+      <view class="star_box">
+        <i class="iconfont icon-star star_off"></i>
+        <i class="iconfont icon-star star_on" style="width:{{16 * item.value}}px"></i>
+      </view>
+    </repeat>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Star extends wepy.component {
+    data = {
+      star: 5,
+      starArr: []
+    }
+    props = {
+      starNum: {
+        type: Number,
+        default: 0.5
+      }
+    }
+    onLoad () {
+      let fullStar = parseInt(this.starNum)
+      let unfullStar = 0
+      if (this.starNum > 0 && this.starNum < 1) {
+        unfullStar = (this.starNum).toFixed(2)
+      } else {
+        unfullStar = (this.starNum % fullStar).toFixed(2)
+      }
+      let starOn = Math.ceil(this.starNum)
+      for (let i = 0; i < this.star; i++) {
+        let item = {
+          value: 0
+        }
+        if (i < starOn) {
+          if (i === fullStar) {
+            item.value = unfullStar
+          } else {
+            item.value = 1
+          }
+        }
+        this.starArr.push(item)
+      }
+    }
+  }
+</script>

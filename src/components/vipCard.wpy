@@ -1,0 +1,93 @@
+<style lang="less">
+  @import '../styles/config.less';
+  .vip_card{
+    height: 400rpx;
+    margin: @baseSpace;
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(-212deg, #38342E 16%, #242220 86%);
+    border-radius: 4px;
+    .item {
+      display: flex;
+      align-items: center;
+      height: 200rpx;
+      line-height: 200rpx;
+      justify-content: center;
+      .logo{
+        width: 110rpx;
+        height: 110rpx;
+        border-radius: 50%;
+        border: 1px solid #979797;
+        margin-right: @baseSpace;
+      }
+      .title{
+        color: @orangeColor;
+        font-size:30px;
+      }
+      .item_child{
+        flex: 1;
+        display: flex;
+        align-items:center;
+        justify-content: center;
+      }
+      .user{
+        .head_image{
+          width: 100rpx;
+          height: 100rpx;
+          border-radius: 50%;
+          border:1px solid @orangeColor;
+          margin-right: 20rpx;
+        }
+        .name{
+          font-size: 14px;
+          color: @orangeColor;
+        }
+      }
+      .btn{
+        width: 200rpx;
+        height: 70rpx;
+        line-height: 70rpx;
+        background: #403C3A;
+        border: 1px solid @orangeColor;
+        border-radius: 3px;
+        text-align: center;
+        color: @orangeColor;
+        font-size: 16px;
+      }
+    }
+  }
+</style>
+
+<template>
+  <view class="vip_card">
+    <view class="item">
+      <image src="{{logo}}" class="logo" mode="aspectFill"/>
+      <text class="title">{{title}}</text>
+    </view>
+    <view class="item">
+      <view class="user item_child">
+        <image src="{{logo}}" class="head_image" mode="aspectFill"/>
+        <text class="name">{{title}}</text>
+      </view>
+      <view class="item_child">
+          <view class="btn" @tap="openCard">我要开通</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class VipCard extends wepy.component {
+    data = {
+      logo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=928053218,1590778379&fm=27&gp=0.jpg',
+      title: '佩奇在线'
+    }
+    methods = {
+      openCard (e) {
+        this.$emit('openCard', e)
+      }
+    }
+  }
+</script>

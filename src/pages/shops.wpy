@@ -1,0 +1,63 @@
+<style lang="less">
+  @import '../styles/config.less';
+  .items{
+    margin-top: @baseSpace;
+  }
+</style>
+<template>
+  <view class="container">
+    <searchBox @selectCity.user="selectCity" @searchConfirm.user="searchConfirm"></searchBox>
+    <vipCard></vipCard>
+    <view class="items">
+      <repeat for="{{shops}}" key="index" item="item">
+        <shopRow :logo="item.logo" :name="item.name" :price="item.price" :starNum="item.star" :catStr="item.catStr" :area="item.area" :starNum="item.starNum"></shopRow>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import searchBox from '../components/searchBox'
+  import vipCard from '../components/vipCard'
+  import shopRow from '../components/shopRow'
+
+  export default class Shops extends wepy.page {
+    components = {
+      searchBox,
+      vipCard,
+      shopRow
+    }
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    data = {
+      shops: [{
+        logo: 'http://img2.imgtn.bdimg.com/it/u=651987447,3472797659&fm=27&gp=0.jpg',
+        name: '美丽人生',
+        price: 300,
+        starNum: 5,
+        catStr: '美容',
+        area: '思明区'
+      },
+      {
+        logo: 'http://img0.imgtn.bdimg.com/it/u=1441963935,262582611&fm=27&gp=0.jpg',
+        name: '金仕堡',
+        price: 300,
+        starNum: 4.8,
+        catStr: '美容',
+        area: '思明区'
+      }]
+    }
+    methods = {
+      selectCity (e) {
+        console.log('selectCity')
+      },
+      searchConfirm (e) {
+        console.log(e)
+      }
+    }
+    onLoad () {
+    }
+  }
+</script>

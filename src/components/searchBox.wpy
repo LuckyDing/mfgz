@@ -1,0 +1,53 @@
+<style lang="less">
+  .dy_header{
+    display: flex;
+    height: 88rpx;
+    padding: 0 30rpx;
+    align-items: center;
+    background-color:#fff;
+
+    .city{
+      width: 120rpx;
+    }
+    .dy_search_bar{
+      display: flex;
+      flex:1;
+      align-items: center;
+      width: 276 * 2 rpx;
+      border: 1px solid #A5A5A5;
+      border-radius: 200rpx;
+      margin-left: 30rpx;
+      .iconfont {
+      	font-size: 14px;
+      	color: #888;
+      	margin:0 16rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="dy_header">
+    <view class="city" @tap="selectCity">厦门市<i class="bottom-arrow"/></view>
+    <view class="dy_search_bar">
+      <view><i class="iconfont icon-search"/></view>
+      <view><input value='{{inputVal}}' placeholder="搜索商家" confirm-type="search" bindconfirm="searchConfirm"/></view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class SearchBox extends wepy.component {
+    data = {
+      inputVal: ''
+    }
+    methods = {
+      selectCity (e) {
+        this.$emit('selectCity', e)
+      },
+      searchConfirm (e) {
+        this.$emit('searchConfirm', e)
+      }
+    }
+  }
+</script>
