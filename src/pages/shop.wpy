@@ -1,0 +1,285 @@
+<style lang="less">
+@import '../styles/config.less';
+ .container{
+   padding-bottom: 44px;
+ }
+  .my_swiper{
+    position: relative;
+    overflow: initial;
+    swiper{
+        height: 420rpx;
+        image {
+          width: 100%;
+  	      height: 100%
+        }
+    }
+  }
+  .shop_logo{
+    width:120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    border: 1px solid #FFFFFF;
+    position: absolute;
+    bottom: -30rpx;
+    left: 50%;
+    transform: translate(-50%,0);
+    z-index: 9;
+  }
+  .header{
+    background-color: #fff;
+
+    .header_text{
+      padding: @baseSpace @baseSpace 0 @baseSpace;
+      text{
+        display: block;
+        padding-bottom: 20rpx;
+        &:last-child{
+          padding-bottom: @baseSpace;
+        }
+      }
+      .title{
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .desc{
+        color: @grayColor;
+        font-size: 14px;
+      }
+      .price{
+        font-size: 14px;
+      }
+      .grade{
+        display: flex;
+        margin-bottom: 20rpx;
+      }
+    }
+  }
+  .address_area{
+    margin-top: 16rpx;
+    background-color: #fff;
+
+    .address_header{
+      padding: 26rpx 0;
+      margin: 0 @baseSpace;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid @borderColor;
+
+      .address_header_item{
+        font-size: 18px;
+        flex: 1;
+        &:last-child{
+          font-size: 12px;
+          color:#888;
+          text-align: right;
+        }
+      }
+    }
+    .address_item{
+      padding: @baseSpace @baseSpace 0 @baseSpace;
+      .address_name{
+        font-size: 14px;
+        margin-bottom: 20rpx;
+      }
+      .address_info{
+        color: @grayColor;
+        font-size: 12px;
+        display: flex;
+        height: 88rpx;
+        align-items: center;
+
+        view{
+          width: 80%;
+          &:first-child{
+            width: 10%;
+          }
+          &:last-child{
+            width: 10%;
+          }
+        }
+        .second_icon{
+          color: @deputyColor;
+          text-align: right;
+          i{
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+  .goods_info{
+    margin-top: 16rpx;
+    padding: 26rpx @baseSpace;
+    background-color: #fff;
+    font-size: 12px;
+
+    .goods_info_title{
+      font-size: 18px;
+      border-bottom: 1px solid @borderColor;
+      padding-bottom: 20rpx;
+    }
+    .goods_item{
+      padding-top: @baseSpace;
+    }
+    .goods_title{
+      font-size: 16px;
+      padding-bottom: 20rpx;
+    }
+    .goods_resume{
+      font-size: 16px;
+      view{
+        padding-top: @baseSpace;
+      }
+    }
+    .goods_desc{
+      color: @grayColor;
+      font-size: 12px;
+      font-weight: normal;
+    }
+    .goods_content{
+      text-align: justify;
+    }
+  }
+  .shop_info{
+    margin-top: @baseSpace;
+    padding: 26rpx @baseSpace;
+    background-color: #fff;
+    font-size: 14px;
+
+    .title{
+      font-size: 18px;
+      border-bottom: 1px solid @borderColor;
+      padding-bottom: 26rpx;
+      margin-bottom: 30rpx;
+    }
+  }
+</style>
+<template>
+  <view class="container">
+    <view class="header">
+      <view class="my_swiper">
+        <swiper autoplay="true" interval="5000" duration="1000">
+          <repeat for="{{imgUrls}}" index="index" item="item" key="index">
+            <swiper-item>
+              <image src="{{item}}" class="slide-image" mode="aspectFill"/>
+            </swiper-item>
+          </repeat>
+        </swiper>
+        <image src="{{logo}}" class="shop_logo" mode="aspectFill"></image>
+      </view>
+      <view class="header_text">
+        <text class="title">标题标题标题</text>
+        <!-- <text class="desc">说明</text> -->
+        <view class="grade">
+          <star :starNum="starNum"></star>
+          <view class="price">￥300/人</view>
+        </view>
+      </view>
+    </view>
+    <!-- 地址 -->
+    <view class="address_area">
+      <view class="address_header">
+        <view class="address_header_item">活动门店</view>
+        <view class="address_header_item" @tap="show_more">共8家<i class="bottom-arrow"/></i></view>
+      </view>
+      <repeat for="{{address}}" key="index" item="item">
+        <view class="address_item">
+          <view class="address_name">{{item.name}}</view>
+          <view class="address_info">
+            <view class="first_icon"><i class="iconfont icon-address"></i></view>
+            <view><text>{{item.address}}</text></view>
+            <view class="second_icon"><i class="iconfont icon-guide"></i></view>
+          </view>
+          <view class="address_info">
+            <view class="first_icon"><i class="iconfont icon-time first_icon"></i></view>
+            <view><text>营业时间 {{item.time}}</text></view>
+            <view class="second_icon"><i class="iconfont icon-telephone"></i></view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+    <!-- 详情 -->
+    <view class="goods_info">
+      <view class="goods_info_title">
+        <text>简介</text>
+      </view>
+      <view class="goods_resume">
+        <view class="goods_desc goods_content">With all of the styling tool options available in today’s market,
+          it can be very confusing to choose the best curling iron for your hair. I mean,
+          let’s face it; most curling irons claim to be the best buy, but are they really?
+          So, what should you really look for in a curling iron and what should you avoid?
+        </view>
+      </view>
+    </view>
+    <!-- 服务内容 -->
+    <view class="shop_info">
+      <view class="title">服务项目</view>
+      <view>
+        <htmlParse parserName="'info'" :parserContent.sync="htmlContent"></htmlParse>
+      </view>
+    </view>
+    <!-- <view class="fixed_btn">成为会员即可领取</view> -->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import htmlParse from '../components/htmlParse'
+  import star from '../components/star'
+
+  export default class Goods extends wepy.page {
+    components = {
+      htmlParse,
+      star
+    }
+    config = {
+      navigationBarTitleText: 'test'
+    }
+    data = {
+      logo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=928053218,1590778379&fm=27&gp=0.jpg',
+      imgUrls: [
+        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      ],
+      address: [
+        {
+          name: '第一家门店',
+          address: '地球村中国福建省厦门市湖里区安岭路989号裕隆国际大厦1205',
+          time: '10:00 - 22:00',
+          tel: '18666666666'
+        }
+      ],
+      show_more: 0,
+      starNum: 4.8,
+      htmlContent: '<p>福建厦门</p><img style="width:100%" src="http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg" />'
+    }
+    methods = {
+      show_more () {
+        console.log('more')
+        let list = [{
+          name: '第二家门店',
+          address: '厦门市湖里区安岭路989号裕隆国际大厦1205',
+          time: '10:00 - 22:00',
+          tel: '18666666666'
+        },
+        {
+          name: '第三家门店',
+          address: '安岭路989号裕隆国际大厦1205',
+          time: '10:00 - 22:00',
+          tel: '18666666666'
+        }]
+        if (this.show_more === 0) {
+          this.address = this.address.concat(list)
+          this.show_more = 1
+        } else {
+          this.address = [this.address[0]]
+          this.show_more = 0
+        }
+      }
+    }
+    onLoad (options) {
+      console.log(options)
+    }
+  }
+</script>

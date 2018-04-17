@@ -34,30 +34,30 @@
   }
 </style>
 <template>
-  <view class="shop_row">
+  <navigator url="{{url}}" class="shop_row" hover-class="navigator-hover">
     <view class="row_item">
       <image class="img" src="{{logo}}" mode="aspectFill"/>
     </view>
     <view class="row_item">
       <view class="name">{{starNum}}</view>
       <view class="price">
-        <star :starNum="starNum"></star>
+        <star :item="item" :index="index"></star>
         <view><text>{{price}}/人</text></view>
       </view>
       <view class="desc">{{catStr}} {{area}}</view>
     </view>
-  </view>
+  </navigator>
 </template>
 <script>
   import wepy from 'wepy'
-  import star from './star'
+  import Star from './star'
   export default class ShopRow extends wepy.component {
     components = {
-      star
-    }
-    data = {
+      star: Star
     }
     props = {
+      item: {},
+      index: {},
       logo: {
         type: String,
         default: ''
@@ -79,9 +79,9 @@
         default: ''
       },
       starNum: {
-        type: Number,
-        default: 5.0
-      }
+        type: Number
+      },
+      url: String
     }
     onLoad () {
     }

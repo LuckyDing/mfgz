@@ -29,7 +29,6 @@
 </style>
 <template>
   <view class="stars">
-    {{starNum}}
     <repeat for="{{starArr}}" index='index' key="index">
       <view class="star_box">
         <i class="iconfont icon-star star_off"></i>
@@ -48,11 +47,16 @@
     }
     props = {
       starNum: {
-        type: Number,
-        default: 0.5
-      }
+        type: Number
+      },
+      item: {},
+      index: {}
     }
     onLoad () {
+      if (this.starNum === undefined) {
+        this.starNum = this.item.starNum
+        console.log(this.starNum)
+      }
       let fullStar = parseInt(this.starNum)
       let unfullStar = 0
       if (this.starNum > 0 && this.starNum < 1) {

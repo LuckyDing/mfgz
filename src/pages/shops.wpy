@@ -9,8 +9,8 @@
     <searchBox @selectCity.user="selectCity" @searchConfirm.user="searchConfirm"></searchBox>
     <vipCard></vipCard>
     <view class="items">
-      <repeat for="{{shops}}" key="index" item="item">
-        <shopRow :logo="item.logo" :name="item.name" :price="item.price" :starNum="item.star" :catStr="item.catStr" :area="item.area" :starNum="item.starNum"></shopRow>
+      <repeat for="{{shops}}" key="index" item="item" index="index">
+        <shopRow :item="item" :index="index" :url="'shop?id='+item.id" :logo="item.logo" :name="item.name" :price="item.price" :starNum="item.star" :catStr="item.catStr" :area="item.area" :starNum="item.starNum"></shopRow>
       </repeat>
     </view>
   </view>
@@ -38,7 +38,8 @@
         price: 300,
         starNum: 5,
         catStr: '美容',
-        area: '思明区'
+        area: '思明区',
+        id: 0
       },
       {
         logo: 'http://img0.imgtn.bdimg.com/it/u=1441963935,262582611&fm=27&gp=0.jpg',
@@ -46,7 +47,8 @@
         price: 300,
         starNum: 4.8,
         catStr: '美容',
-        area: '思明区'
+        area: '思明区',
+        id: 1
       }]
     }
     methods = {
