@@ -1,5 +1,5 @@
 <style lang="less">
-  .dy_header{
+  .dy_search{
     display: flex;
     height: 88rpx;
     padding: 0 30rpx;
@@ -22,15 +22,24 @@
       	color: #888;
       	margin:0 16rpx;
       }
+      .search_input_box{
+        flex:1;
+        .search_input{
+          height: 58rpx;
+          line-height: 58rpx;
+        }
+      }
     }
   }
 </style>
 <template>
-  <view class="dy_header">
+  <view class="dy_search">
     <view class="city" @tap="selectCity">厦门市<i class="bottom-arrow"/></view>
     <view class="dy_search_bar">
       <view><i class="iconfont icon-search"/></view>
-      <view><input value='{{inputVal}}' placeholder="搜索商家" confirm-type="search" bindconfirm="searchConfirm"/></view>
+      <view class="search_input_box">
+        <input class="search_input" value='{{inputVal}}' placeholder="搜索商家" confirm-type="search" bindconfirm="searchConfirm"/>
+      </view>
     </view>
   </view>
 </template>

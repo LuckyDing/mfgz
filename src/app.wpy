@@ -95,9 +95,10 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-
+    wepy.login().then(res => {
+      console.log(res)
+    })
   }
-
   getUserInfo(cb) {
     const that = this
     if (this.globalData.userInfo) {
