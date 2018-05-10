@@ -38,7 +38,7 @@
 <template>
   <view class="dy_navbar">
     <repeat for="{{tabs}}" index="index" key="*this" item="item">
-      <view class="dy_navbar_title {{activeIndex == index ? 'dy_navbar_item_on' : ''}}" id="{{index}}" @tap="tabClick">{{item}}</view>
+      <view class="dy_navbar_title {{activeIndex == index ? 'dy_navbar_item_on' : ''}}" id="{{index}}" @tap="tabClick({{index}}, {{item.id}})">{{item.name}}</view>
     </repeat>
     <view class="dy_navbar_slider" style="left: {{sliderLeft}}px;width:{{width}}px"></view>
   </view>
@@ -48,16 +48,18 @@
   export default class Navbar extends wepy.component {
     data = {
       baseWidth: 0,
-      sliderLeft: 0
+      sliderLeft: 0,
+      screenWidth: 0
     }
     props ={
       tabs: {
         type: Array,
-        default: ['tab1', 'tab2', 'tab3']
+        default: [],
+        twoway: true
       },
       activeIndex: {
         type: Number,
-        default: 3
+        default: 0
       },
       width: 0
     }
@@ -65,14 +67,17 @@
     }
 
     methods = {
-      tabClick (e) {
-        this.activeIndex = e.currentTarget.id
+      tabClick (id, cid) {
+        this.activeIndex = id
         this.dynamicWidth()
-        this.$emit('tabClick', e)
+        this.$emit('tabClick', cid)
       }
     }
     dynamicWidth () {
-      let textLength = this.tabs[this.activeIndex].length //  tab文字长度
+      let textLength = 2 //  tab文字长度
+      if (this.tabs.length > 0) {
+        textLength = this.strLength(this.tabs[this.activeIndex].name)
+      }
       this.width = textLength * 20  //  宽度
       let otherWidth = this.baseWidth - this.width
       if (this.width > this.baseWidth) {
@@ -82,11 +87,30 @@
         this.sliderLeft = this.baseWidth * this.activeIndex + otherWidth / 2
       }
     }
+    // 计算字符串长度
+    strLength (str) {
+      let len = 0
+      for (let i = 0; i < str.length; i++) {
+        if (str.charCodeAt(i) > 127 || str.charCodeAt(i) === 94) {
+          len += 1
+        } else {
+          len += 2 / 3
+        }
+      }
+      return len
+    }
     async onLoad () {
       let res = await wepy.getSystemInfo()
-      this.baseWidth = res.windowWidth / this.tabs.length //  静态宽度
+      this.screenWidth = res.windowWidth
       this.dynamicWidth()
       this.$apply()
+    }
+    watch = {
+      tabs (newValue, oldValue) {
+        this.baseWidth = this.screenWidth / newValue.length //  静态宽度
+        this.dynamicWidth()
+        this.$apply()
+      }
     }
   }
 </script>

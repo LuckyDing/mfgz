@@ -2,11 +2,14 @@ import wepy from 'wepy'
 
 export default class requestMixin extends wepy.mixin {
   data = {
-    baseUrl: 'https://www.easy-mock.com/mock/5acd6ad51a719c137134156f/mj/'
+    baseUrl: 'https://www.mjxgz.club/'
   }
   methods = {
   }
-  $post (url = '', data = {}, showLoading = true) {
+  $post (url = '', data = {}, showLoading = false) {
+    if (showLoading === true) {
+      wepy.showLoading()
+    }
     const _this = this
     return wepy.request(
       {
@@ -14,9 +17,14 @@ export default class requestMixin extends wepy.mixin {
         method: 'post',
         data: data
       }
-    ).then()
+    ).then((res) => {
+      wepy.hideLoading()
+    })
   }
-  $get (url = '', data = {}, showLoading = true) {
+  $get (url = '', data = {}, showLoading = false) {
+    if (showLoading === true) {
+      wepy.showLoading()
+    }
     const _this = this
     return wepy.request(
       {
@@ -25,6 +33,7 @@ export default class requestMixin extends wepy.mixin {
         data: data
       }
     ).then((res) => {
+      wepy.hideLoading()
       return res
     })
   }

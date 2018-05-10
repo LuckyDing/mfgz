@@ -9,7 +9,16 @@
   }
 }
 .list{
-  padding-bottom: 40rpx;
+  padding-bottom: 20rpx;
+}
+.endWarn{
+  text-align: center;
+  font-size: 12px;
+  color: #bbb;
+  padding: 0 0 30rpx 0;
+  .endWarnText{
+    margin: 0 30rpx;
+  }
 }
 </style>
 <template>
@@ -21,18 +30,20 @@
         <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
           <repeat for="{{imgUrls}}" index="index" item="item" key="index">
             <swiper-item>
-              <image src="{{item.img}}" class="slide-image" mode="aspectFill"/>
+              <image src="{{item.bannerImg}}" class="slide-image" mode="aspectFill"/>
             </swiper-item>
           </repeat>
         </swiper>
       </view>
       <!-- navbar  -->
-      <navbar @tabClick.user="tabClick" :tabs="tabs"></navbar>
+      <navbar @tabClick.user="tabClick" :tabs.sync="tabs"></navbar>
       <view class="list">
         <repeat for="{{listData}}" item="item" key="index" index="index">
-          <card :url="'goods?id='+item.id" :title="item.title" :img="item.img" :desc="item.desc" :time="item.time" :num="item.num"></card>
+          <card :url="'goods?id='+item.goodsId" :title="item.goodsName" :img="item.goodsImg" :desc="item.goodsTitle"
+          :time="item.activeTimeStart + ' ' +item.activeTimeEnd" :num="item.surplusQuantity"></card>
         </repeat>
       </view>
+      <view class="endWarn" hidden="{{isNotEnd}}">--------<text class="endWarnText">没有了</text>--------</view>
     </scroll-view>
   </view>
 </template>
@@ -43,6 +54,11 @@
   import Card from '../components/card'
   import request from '../mixins/request'
   import SearchBox from '../components/searchBox'
+  import {
+    GetBanner,
+    GetCategories,
+    GetGoodsPage
+  } from '../common/api'
 
   export default class Index extends wepy.page {
     mixins = [request];
@@ -57,62 +73,67 @@
     }
     data = {
       inputVal: '',
-      imgUrls: [{
-        'img': 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'url': 'goods?id=1'
-      },
-      {
-        'img': 'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'url': 'goods?id=2'
-      },
-      {
-        'img': 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-        'url': 'goods?id=2'
-      }],
-      tabs: ['一', '两个', '三个字', '四个字啊啊啊啊'],
-      listData: [
-        {
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          title: '哈哈哈哈哈哈哈',
-          desc: '全场花茶五折，最高立减200元',
-          time: '03.02-04.22',
-          num: 600,
-          id: 0
-        }
-      ],
+      imgUrls: [],
+      tabs: [],
+      listData: [],
       activeIndex: 0,
-      scrollHeight: 0
+      scrollHeight: 0,
+      endRow: 0,
+      pageSize: 5,
+      total: 0,
+      nextPage: 1,
+      isNotEnd: true,
+      cid: 1
     }
     methods = {
-      tabClick (e) {
-        // console.log(e.currentTarget.id)
+      tabClick (cid) {
+        this.cid = cid
+        this.listData = []
+        this.nextPage = 1
+        this.isNotEnd = true
+        this.getGoodsPage()
+        this.$apply()
+      },
+      selectCity () {
+      },
+      searchConfirm () {
       }
     }
+    getGoodsPage () {
+      const self = this
+      this.$get(GetGoodsPage, {
+        pageSize: self.pageSize,
+        pageNum: self.nextPage,
+        categoryId: self.cid
+      }).then((res) => {
+        self.listData = self.listData.concat(res.data.list)
+        self.endRow = res.data.endRow
+        self.total = res.data.total
+        self.nextPage = res.data.nextPage
+        self.$apply()
+      })
+    }
     async onLoad () {
-      const _this = this
+      const self = this
       let res = await wepy.getSystemInfo()
-      _this.scrollHeight = res.windowHeight
-      // this.$post('getSwiperImages').then((res) => {
-      //   _this.imgUrls = res.data
-      //   this.$apply()
-      // })
-      _this.$apply()
+      this.scrollHeight = res.windowHeight
+      this.$get(GetBanner).then((res) => {
+        self.imgUrls = res.data
+        self.$apply()
+      })
+      this.$get(GetCategories).then((res) => {
+        self.tabs = res.data
+        self.$apply()
+      })
+      await this.getGoodsPage()
+      this.$apply()
     }
     loadMore () {
-      wepy.showNavigationBarLoading()
-      setTimeout(function() {
-        wepy.hideNavigationBarLoading()
-      }, 500)
-
-      console.log('加载')
-      this.listData.push({
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        title: '哈哈哈哈哈哈哈',
-        desc: '全场花茶五折，最高立减200元',
-        time: '03.02-04.22',
-        num: 600,
-        id: 0
-      })
+      if (this.endRow >= this.total) {
+        this.isNotEnd = false
+        return
+      }
+      this.getGoodsPage()
     }
     onPullDownRefresh () {
       console.log('--------下拉刷新-------')
