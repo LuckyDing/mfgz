@@ -161,7 +161,7 @@
         <swiper autoplay="true" interval="5000" duration="1000">
           <repeat for="{{imgUrls}}" index="index" item="item" key="index">
             <swiper-item>
-              <image src="{{item}}" class="slide-image" mode="aspectFill"/>
+              <image src="{{item.imgUrl}}" class="slide-image" mode="aspectFill"/>
             </swiper-item>
           </repeat>
         </swiper>
@@ -234,21 +234,20 @@
 <script>
   import wepy from 'wepy'
   import htmlParse from '../components/htmlParse'
+  import {GetGoodsBanner} from '../common/api.js'
+  import request from '../mixins/request'
 
   export default class Goods extends wepy.page {
+    mixins = [request];
     components = {
       htmlParse
     }
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '详情'
     }
     data = {
       logo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=928053218,1590778379&fm=27&gp=0.jpg',
-      imgUrls: [
-        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      ],
+      imgUrls: [],
       address: [
         {
           name: '第一家门店',
@@ -284,8 +283,11 @@
         }
       }
     }
-    onLoad (options) {
-      console.log(options)
+    async onLoad (options) {
+      await this.$get(GetGoodsBanner + options.id).then((res) => {
+        this.imgUrls = res.data
+        this.$apply()
+      })
     }
   }
 </script>

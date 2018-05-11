@@ -29,7 +29,7 @@
       shopRow
     }
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '商家'
     }
     data = {
       shops: [{
